@@ -8,6 +8,7 @@ default: &default
 development:
   <<: *default
   database: rails_cource_development
+
 test:
   <<: *default
   database: rails_cource_test
