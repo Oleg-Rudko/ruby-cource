@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
   layout false
+  # curl -d "name=Iphone11&price=1100" -X POST http://localhost:5000/items
   skip_before_action :verify_authenticity_token
   def index
     @items = Item.all
