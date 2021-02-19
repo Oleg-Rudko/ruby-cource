@@ -4,7 +4,6 @@ class ItemsController < ApplicationController
   skip_before_action :verify_authenticity_token
   def index
     @items = Item.all
-    render body: @items.map { |i| "#{i.name}: #{i.price}"}
   end
   def create
     item = Item.create(items_params)
@@ -12,6 +11,12 @@ class ItemsController < ApplicationController
       render body: item.name, status: :created
     else
       render body: item.errors, status: :unprocessable_entity
+    end
+  end
+
+  def show
+    unless(@item = Item.where(id: params[:id]).first)
+      render body: "Page not found", status: 404
     end
   end
 
