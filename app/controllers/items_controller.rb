@@ -41,8 +41,7 @@ class ItemsController < ApplicationController
   def destroy
     item = Item.find_by(id: params[:id]).destroy
     if item.destroyed?
-      # redirect_to items_path
-      render 'items/index'
+      redirect_to items_path
     else
       render body: item.errors, status: :unprocessable_entity
     end

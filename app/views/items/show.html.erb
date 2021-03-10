@@ -8,4 +8,6 @@
   <li>Description: <%= @item.description %></li>
 </ul>
 
+<%= link_to "edit #{@item.name}" , edit_item_path %>
+<br />
 <%= link_to 'items', items_path %>
