@@ -2,12 +2,14 @@ class ItemsController < ApplicationController
   layout false
   # curl -d "name=Iphone11&price=1100&description=Ok" -X POST http://localhost:5000/items
   skip_before_action :verify_authenticity_token
-  before_action :find_item, only: %i[show edit update destroy]
+  before_action :find_item, only: %i[show edit update destroy upvote]
   before_action :admin?, only: %i[edit update new create destroy]
+  after_action :show_info, only: %i[index]
 
   def index
     @items = Item.all
   end
+
   def create
     item = Item.create(items_params)
     if item.persisted?
@@ -46,6 +48,16 @@ class ItemsController < ApplicationController
     end
   end
 
+  def upvote
+    @item.increment!(:votes_count)
+    redirect_to items_path
+  end
+
+  def expensive
+    @items = Item.where('price >=  50')
+    render :index
+  end
+
   private
   def items_params
     params.permit(:name, :price, :weight, :description)
@@ -56,6 +68,11 @@ class ItemsController < ApplicationController
   end
 
   def admin?
-    render json: 'Access denied', status: :forbidden unless params[:admin]
+    true
+    # render json: 'Access denied', status: :forbidden unless params[:admin]
+  end
+
+  def show_info
+    puts "Somehow after show info"
   end
 end
